@@ -1,0 +1,22 @@
+{
+  "name": "wms-course-reserves-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "debug": "^2.2.0",
+    "node-xml": "^1.0.2",
+    "oclc-copy-resource": "^1.0.0",
+    "oclc-wskey": "^2.1.0",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "electron-builder": "^2.0.0",
+    "tape": "^4.0.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Adam Malantonio <adam.malantonio@gmail.com>",
+  "license": "MIT"
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Reserves Label</title>
+    <link rel="stylesheet" href="assets/style.css">
+  </head>
+  <body>
+    <div class="entry-container">
+      <header>
+        <img src="assets/worldshare-logo.png" style="height:50px;width:auto;">
+        <h1>WMS Course Reserves Label Generator</h1>
+      </header>
+
+      <section class="alert-container">
+        <div class="alert"></div>
+      </section>
+
+      <section class="main-area">
+        <form class="barcode-form">
+          <input class="barcode-input" placeholder="Scan your barcode">
+          
+          <label class="autoprint-label">
+            <input type="checkbox" class="autoprint" checked>
+            Autoprint?
+          </label>
+        </form>
+      </section>
+
+      <section class="debug-container alert" style="background-color: #dee;text-align:center;"></section>
+    </div>
+    <div class="label-container">
+      <div class="label-target"></div>
+      <button class="print-button">Print this label</button>
+    </div>
+
+    <script src="main.js"></script>
+  </body>
+</html>
