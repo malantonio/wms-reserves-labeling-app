@@ -7,7 +7,14 @@ body {
   font-size: 14px;
 }
 
-label {
+@media print {
+  body {
+    height: 6in;
+    width: 4in;
+  }
+}
+
+button, label {
   cursor: pointer;
 }
 
@@ -31,7 +38,7 @@ label {
 
 .autoprint-label {
   background-color: rgba(222, 237, 238, 1);
-  border: 3px solid rgba(192, 207, 208, 1);
+  border: 2px solid rgba(192, 207, 208, 1);
   border-radius: 10px;
   display: inline-block;
   margin: 1em;
@@ -48,7 +55,7 @@ label {
 
 .alert.alert-error {
   background-color: rgba(204, 9, 47, .5);
-  border-color: rgba(204, 9, 47, 1);
+  border-color: rgba(184, 0, 27, 1);
   color: rgba(255, 255, 255, .95);
   font-weight: 100;
 }
@@ -128,4 +135,47 @@ label {
   display: block;
   font-size: 2em;
   margin: auto;
+}
+
+.print-button {
+  background-color: rgba(0, 210, 255, 1);
+  border: 2px solid rgba(0, 0, 255, 1);
+  border-radius: 2px;
+  margin-top: 1em;
+  width: 100%;
+}
+
+/* options page */
+
+.options-panel {
+  background-color: #e5e5e5;
+}
+
+.options-group {
+  display: block;
+  margin: .5em auto;
+}
+
+.options-group input,
+.options-group label {
+  display: inline-block;
+}
+
+.options-group input[type="text"],
+.options-group input[type="password"],
+.options-group textarea {
+  font-size: 1em;
+  width: 20em;
+  vertical-align: middle;
+}
+
+.options-group label {
+  font-weight: 700;
+  width: 10em;
+  vertical-align: middle;
+}
+
+.options-group .ok::after {
+  color: green;
+  content: "\2713";
 }

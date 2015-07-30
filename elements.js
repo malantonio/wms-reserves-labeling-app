@@ -19,4 +19,13 @@ module.exports = {
   feedback: {
     alert: document.querySelector('.alert-container .alert')
   }
+
+  options: {
+    wskeyPublic: document.querySelector('#opts-wskey-public'),
+    wskeySecret: document.querySelector('#opts-wskey-secret'),
+    principalID: document.querySelector('#opts-principal-id'),
+    principalIDNS: document.querySelector('#opts-principal-idns'),
+    instID: document.querySelector('#opts-inst-id'),
+    includeTitle: document.querySelector('#opts-include-title')
+  }
 }
