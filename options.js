@@ -1,14 +1,4 @@
-var options =  {
-    wskeyPublic: document.querySelector('#opts-wskey-public'),
-    wskeySecret: document.querySelector('#opts-wskey-secret'),
-    principalID: document.querySelector('#opts-principal-id'),
-    principalIDNS: document.querySelector('#opts-principal-idns'),
-    instID: document.querySelector('#opts-inst-id'),
-    includeTitle: document.querySelector('#opts-include-title')
-  }
-
-  
-// var options = require('./elements').options
+var options = require('./elements').options
 var elementList = Object.keys(options)
 var storage = window.localStorage
 var forEach = Array.prototype.forEach
