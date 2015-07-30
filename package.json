@@ -1,6 +1,6 @@
 {
   "name": "wms-course-reserves-app",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "app.js",
   "dependencies": {
@@ -12,10 +12,18 @@
   },
   "devDependencies": {
     "electron-builder": "^2.0.0",
+    "electron-packager": "^5.0.1",
     "tape": "^4.0.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "rm -rf ./dist",
+    
+    "build": "npm run clean && build:win",
+    "build:win": "./node_modules/electron-packager/cli.js ./ wms-course-reserves --out=dist/win --platform=win32 --arch=ia32 --version=0.30.1",
+
+    "pack": "npm run build && npm run pack:win",
+    "pack:win": "npm run build:win && ./node_modules/electron-builder/cli.js \"dist/win/wms-course-reserves-win32-ia32\" --platform=win32 --out=dist/win --config=pack-config.json"
   },
   "author": "Adam Malantonio <adam.malantonio@gmail.com>",
   "license": "MIT"
