@@ -1,15 +1,24 @@
-var options = require('./elements').options
-var elementList = Object.keys(options)
+var remote = require('remote')
+var elements = require(__dirname + '/elements')
+var settings = elements.settings
+var elementList = Object.keys(settings)
 var storage = window.localStorage
 var forEach = Array.prototype.forEach
 
+var closeButton = elements.buttons.settingsClose
+
+closeButton.addEventListener('click', function (ev) {
+  ev.preventDefault()
+  remote.getCurrentWindow().close()
+})
+
 Array.prototype.forEach.call(elementList, function (k) {
-  options[k].addEventListener('blur', handleUpdate)
+  settings[k].addEventListener('blur', handleUpdate)
 })
 
 document.addEventListener('DOMContentLoaded', function (ev) {
   forEach.call(elementList, function (e) {
-    var el = options[e]
+    var el = settings[e]
     var key = generateStorageKey(el)
     
     if (el.type === 'checkbox') {
@@ -33,5 +42,5 @@ function handleUpdate (ev) {
 
 // produce an element's localStorage key
 function generateStorageKey (el) {
-  return el.id.replace('opts-', '')
+  return el.id.replace('settings-', '')
 }

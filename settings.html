@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Options</title>
+    <title>Settings</title>
     <link rel="stylesheet" href="assets/style.css">
   </head>
   <body class="options-panel">
-    <h1>Options</h1>
+    <h1>Settings</h1>
 
     <h2>WebServices Key</h2>
     <p class="options-help">
@@ -17,13 +17,13 @@
       to request one for your institution.</a>
     </p>
     <div class="options-group">
-      <label for="opts-wskey-public">WSKey (public)</label>
-      <textarea id="opts-wskey-public" rows="3"></textarea>
+      <label for="settings-wskey-public">WSKey (public)</label>
+      <textarea id="settings-wskey-public" rows="3"></textarea>
     </div>
     
     <div class="options-group">
-      <label for="opts-wskey-secret">WSKey (secret)</label>
-      <input type="text" id="opts-wskey-secret">
+      <label for="settings-wskey-secret">WSKey (secret)</label>
+      <input type="text" id="settings-wskey-secret">
     </div>
 
     <h2>User Principal ID and IDNS</h2>
@@ -34,29 +34,31 @@
     </p>
 
     <div class="options-group">
-      <label for="opts-principalid">Principal ID</label>
-      <input type="text" id="opts-principal-id">
+      <label for="settings-principalid">Principal ID</label>
+      <input type="text" id="settings-principal-id">
     </div>
 
     <div class="options-group">
-      <label for="opts-principalidns">Principal IDNS</label>
-      <input type="text" id="opts-principal-idns">
+      <label for="settings-principalidns">Principal IDNS</label>
+      <input type="text" id="settings-principal-idns">
     </div>
 
     <h2>Institution ID</h2>
     <div class="options-group">
-      <label for="opts-inst-id">Institution ID</label>
-      <input type="text" id="opts-inst-id">
+      <label for="settings-inst-id">Institution ID</label>
+      <input type="text" id="settings-inst-id">
     </div>
 
     <h2>Include Title?</h2>
     <div class="options-group">
-      <label for="opts-include-title">
+      <label for="settings-include-title">
         Add title to label
       </label>
-      <input type="checkbox" id="opts-include-title">
+      <input type="checkbox" id="settings-include-title">
     </div>
 
-    <script src="options.js"></script>
+    <button class="settings-close">Save + Close</button>
+
+    <script src="settings.js"></script>
   </body>
 </html>

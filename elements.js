@@ -8,7 +8,9 @@ module.exports = {
   },
 
   buttons: {
-    print: document.querySelector('.print-button')
+    print: document.querySelector('.print-button'),
+    settings: document.querySelector('.settings-button'),
+    settingsClose: document.querySelector('.settings-close')
   },
 
   inputs: {
@@ -18,14 +20,14 @@ module.exports = {
 
   feedback: {
     alert: document.querySelector('.alert-container .alert')
-  }
+  },
 
-  options: {
-    wskeyPublic: document.querySelector('#opts-wskey-public'),
-    wskeySecret: document.querySelector('#opts-wskey-secret'),
-    principalID: document.querySelector('#opts-principal-id'),
-    principalIDNS: document.querySelector('#opts-principal-idns'),
-    instID: document.querySelector('#opts-inst-id'),
-    includeTitle: document.querySelector('#opts-include-title')
+  settings: {
+    wskeyPublic: document.querySelector('#settings-wskey-public'),
+    wskeySecret: document.querySelector('#settings-wskey-secret'),
+    principalID: document.querySelector('#settings-principal-id'),
+    principalIDNS: document.querySelector('#settings-principal-idns'),
+    instID: document.querySelector('#settings-inst-id'),
+    includeTitle: document.querySelector('#settings-include-title')
   }
 }

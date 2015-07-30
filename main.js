@@ -1,8 +1,13 @@
 var remote = require('remote')
+var BrowserWindow = remote.require('browser-window')
+var clipboard = require('clipboard')
 var elements = require(__dirname + '/elements')
 var CourseReserves = require(__dirname + '/lib/CourseReserves')
-var cr = new CourseReserves(config)
 var storage = window.localStorage
+
+var config = getOpts()
+
+var optsWindow = null
 
 var renderTemplate = require(__dirname + '/lib/renderTemplate')
 
@@ -10,6 +15,7 @@ document.addEventListener('DOMContentLoaded', focusOnBarcodeInput)
 elements.containers.form.addEventListener('submit', handleBarcodeSubmit)
 elements.buttons.print.addEventListener('click', handlePrint)
 elements.inputs.autoprint.addEventListener('change', handleAutoprintUpdate)
+elements.buttons.settings.addEventListener('click', handleOptionsPage)
 
 function focusOnBarcodeInput () {
   elements.inputs.barcode.focus()
@@ -71,7 +77,11 @@ function handleBarcodeSubmit (ev) {
 }
 
 function handleOptionsPage (ev) {
+  ev.preventDefault()
   
+  optsWindow = new BrowserWindow({width: 600, height: 700, frame: false})
+  optsWindow.loadUrl('file://' + __dirname + '/settings.html')
+  optsWindow.on('closed', function () { optsWindow = null })
 }
 
 function handlePrint (ev) {

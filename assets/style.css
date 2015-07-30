@@ -21,6 +21,7 @@ button, label {
 .entry-container, .label-container {
   display: inline-block;
   padding: .5em;
+  position: relative;
   vertical-align: top;
 }
 
@@ -58,6 +59,26 @@ button, label {
   border-color: rgba(184, 0, 27, 1);
   color: rgba(255, 255, 255, .95);
   font-weight: 100;
+}
+
+.settings-button, .settings-close {
+  border: 1px solid transparent;
+  border-radius: 5px;
+  bottom: 1.75em;
+  font-size: 1em;
+  padding: .5em;
+}
+
+.settings-button {  
+  background-color: #e5e5e5;
+  border-color: #c3c3c3;
+  position: absolute;
+  right: 10px;
+}
+
+.settings-close {
+  background-color: lightblue;
+  border-color: darkblue;
 }
 
 /* label */
