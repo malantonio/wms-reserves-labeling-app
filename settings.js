@@ -1,4 +1,5 @@
 var remote = require('remote')
+var ipc = require('ipc')
 var elements = require(__dirname + '/elements')
 var settings = elements.settings
 var elementList = Object.keys(settings)
@@ -27,6 +28,11 @@ document.addEventListener('DOMContentLoaded', function (ev) {
       el.value = storage.getItem(key)
     }
   })
+})
+
+ipc.on('shortcut', function (action) {
+  var all = require(__dirname + '/lib/shortcut-actions')
+  return all[action]()
 })
 
 function handleUpdate (ev) {
