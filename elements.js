@@ -29,5 +29,9 @@ module.exports = {
     principalIDNS: document.querySelector('#settings-principal-idns'),
     instID: document.querySelector('#settings-inst-id'),
     includeTitle: document.querySelector('#settings-include-title')
+  },
+
+  liveLists: {
+    labels: document.getElementsByClassName('label')
   }
 }

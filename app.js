@@ -9,7 +9,7 @@ app.on('all-windows-closed', function () {
 })
 
 app.on('ready', function () {
-  mainWindow = new BrowserWindow({ width: 850, height: 600 })
+  mainWindow = new BrowserWindow({ width: 850, height: 700 })
 
   registerShortcuts(process.platform)
 

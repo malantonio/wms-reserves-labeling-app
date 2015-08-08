@@ -12,6 +12,20 @@ body {
     height: 6in;
     width: 4in;
   }
+
+  .entry-container *,
+  .print-button,
+  .label:not(.print-visible) {
+    display: none;
+  }
+  
+  .label.print-visible {
+    border: none;
+    height: 6in;
+    left: 0;
+    top: 0;
+    width: 4in;
+  }
 }
 
 button, label {
@@ -83,10 +97,10 @@ button, label {
 
 /* label */
 
-.label-target:not(:empty) {
-  border: 1px solid black;
+.label-target {
+  height: 6in;
   position: relative;
-  max-width: 4in;
+  width: 4in;
   vertical-align: top;
 }
 
@@ -94,36 +108,38 @@ button, label {
   display: none;
 }
 
-.item-title {
+.label {
+  background-color: #fff;
+  border: 1px solid black;
+  position: absolute;
+  left: 0;
+  opacity: 1;
+  width: 4in;
+
+  transition: opacity 750ms ease-out, 
+                  top 750ms ease-out;
+}
+
+.label.removed {
+  left: 999px;
+  opacity: 0;
+}
+
+.label .item-title {
   font-size: .85em;
   font-style: italic;
 }
 
-.label-target button {
-  margin-top: .5em;
-  width: 100%;
-}
-
-@media print {
-  .entry-container { 
-    display: none; 
-  }
-
-  .print-button {
-    display: none;
-  }
-}
-
-.label-target section {
+.label section {
   display: inline-block;
 }
 
-.label-target h1, 
-.label-target h2, 
-.label-target h3, 
-.label-target h4, 
-.label-target h5, 
-.label-target h6 {
+.label h1, 
+.label h2, 
+.label h3, 
+.label h4, 
+.label h5, 
+.label h6 {
   font-size: 1.25em;
   text-transform: uppercase;
 }
@@ -162,7 +178,9 @@ button, label {
   background-color: rgba(0, 210, 255, 1);
   border: 2px solid rgba(0, 0, 255, 1);
   border-radius: 2px;
+  bottom: 0;
   margin-top: 1em;
+  position: absolute;
   width: 100%;
 }
 
