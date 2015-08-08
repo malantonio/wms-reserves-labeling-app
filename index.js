@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', focusOnBarcodeInput)
 elements.containers.form.addEventListener('submit', handleBarcodeSubmit)
 elements.buttons.print.addEventListener('click', handlePrint)
 elements.inputs.autoprint.addEventListener('change', handleAutoprintUpdate)
-elements.buttons.settings.addEventListener('click', handleOptionsPage)
+// elements.buttons.settings.addEventListener('click', handleSettingsPage)
 
 ipc.on('shortcut', handleShortcutAction)
 
@@ -64,13 +64,13 @@ function handleBarcodeSubmit (ev) {
   })
 }
 
-function handleOptionsPage (ev) {
-  ev.preventDefault()
+// function handleSettingsPage (ev) {
+//   ev.preventDefault()
   
-  settingsWindow = new BrowserWindow({width: 600, height: 700, frame: false})
-  settingsWindow.loadUrl('file://' + __dirname + '/settings.html')
-  settingsWindow.on('closed', function () { settingsWindow = null })
-}
+//   settingsWindow = new BrowserWindow({width: 600, height: 700, frame: false})
+//   settingsWindow.loadUrl('file://' + __dirname + '/settings.html')
+//   settingsWindow.on('closed', function () { settingsWindow = null })
+// }
 
 function handlePrint (ev) {
   remote.getCurrentWindow().print({silent: !!config.silentPrinting})
