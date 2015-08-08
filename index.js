@@ -1,15 +1,19 @@
 var remote = require('remote')
+var ipc = require('ipc')
 var BrowserWindow = remote.require('browser-window')
 var clipboard = require('clipboard')
 var elements = require(__dirname + '/elements')
+
 var CourseReserves = require(__dirname + '/lib/CourseReserves')
+var renderTemplate = require(__dirname + '/lib/renderTemplate')
+var getOpts = require(__dirname + '/lib/getOptions')
+
 var storage = window.localStorage
 
 var config = getOpts()
 
-var optsWindow = null
+var settingsWindow = null
 
-var renderTemplate = require(__dirname + '/lib/renderTemplate')
 
 document.addEventListener('DOMContentLoaded', focusOnBarcodeInput)
 elements.containers.form.addEventListener('submit', handleBarcodeSubmit)
@@ -17,26 +21,10 @@ elements.buttons.print.addEventListener('click', handlePrint)
 elements.inputs.autoprint.addEventListener('change', handleAutoprintUpdate)
 elements.buttons.settings.addEventListener('click', handleOptionsPage)
 
+ipc.on('shortcut', handleShortcutAction)
+
 function focusOnBarcodeInput () {
   elements.inputs.barcode.focus()
-}
-
-// go into localStorage + retrieve needed values
-// or put an error on screen
-function getOpts () {
-  // return {
-  //   'inst': storage.getItem('inst-id'),
-  //   'wskey': {
-  //     'public': storage.getItem('wskey-public'),
-  //     'secret': storage.getItem('wskey-secret')
-  //   },
-  //   'user': {
-  //     'principalID': storage.getItem('principal-id'),
-  //     'principalIDNS': storage.getItem('principal-idns')
-  //   },
-  //   'includeTitle': storage.getItem('include-title')
-  // }
-  return require(__dirname + '/config.json')
 }
 
 function handleAutoprintUpdate (ev) {
@@ -79,11 +67,23 @@ function handleBarcodeSubmit (ev) {
 function handleOptionsPage (ev) {
   ev.preventDefault()
   
-  optsWindow = new BrowserWindow({width: 600, height: 700, frame: false})
-  optsWindow.loadUrl('file://' + __dirname + '/settings.html')
-  optsWindow.on('closed', function () { optsWindow = null })
+  settingsWindow = new BrowserWindow({width: 600, height: 700, frame: false})
+  settingsWindow.loadUrl('file://' + __dirname + '/settings.html')
+  settingsWindow.on('closed', function () { settingsWindow = null })
 }
 
 function handlePrint (ev) {
   remote.getCurrentWindow().print({silent: !!config.silentPrinting})
+}
+
+function handleShortcutAction (action) {
+  if (!remote.getCurrentWindow().isFocused()) return
+
+  // if the settings window is open, pass the shortcut to it
+  if (settingsWindow !== null && settingsWindow.isFocused()) {
+    return settingsWindow.send('shortcut', action)
+  }
+
+  var all = require(__dirname + '/lib/shortcut-actions')
+  return all[action]()
 }
