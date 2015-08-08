@@ -1,0 +1,25 @@
+{
+    "inst": 128807,
+    
+    "wskey": {
+        "public": "",
+        "secret": ""
+    },
+    
+    "user": {
+        "principalID": "",
+        "principalIDNS": ""
+      },
+
+    "reservesLocations": {
+        "Example Location - 2 Hour Reserves": {
+            "name": "2 Hour Reserve",
+            "loanPeriod": "2 hours",
+            "fee": "$.25",
+            "feePeriod": "hour"
+        }
+    },
+
+    "includeTitle": true,
+    "silentPrinting": true
+}
