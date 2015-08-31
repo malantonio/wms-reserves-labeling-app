@@ -1,7 +1,8 @@
 var remote = require('remote')
-var ipc = require('ipc')
 var BrowserWindow = remote.require('browser-window')
 var elements = require(__dirname + '/elements')
+var http = require('http')
+var Mousetrap = new (require('mousetrap'))(document)
 
 var CourseReserves = require(__dirname + '/lib/CourseReserves')
 var renderTemplate = require(__dirname + '/lib/renderTemplate')
@@ -21,19 +22,90 @@ var printIntervalLength = 1000
 var printQueueActive = false
 var printIntervalId
 
-document.addEventListener('DOMContentLoaded', setAutoprintButton)
-document.addEventListener('DOMContentLoaded', focusOnBarcodeInput)
+document.addEventListener('DOMContentLoaded', onload)
 elements.inputs.autoprint.addEventListener('change', handleAutoprintUpdate)
 elements.buttons.print.addEventListener('click', handlePrint)
+elements.buttons.clear.addEventListener('click', handleClear)
 elements.containers.form.addEventListener('submit', handleBarcodeSubmit)
+elements.inputs.manualReservePeriod.addEventListener('change', handleManualPeriodUpdate)
 
-ipc.on('shortcut', handleShortcutAction)
+elements.buttons.manual.addEventListener('click', showManualForm)
+elements.buttons.manualSubmit.addEventListener('click', manualFormSubmit)
+elements.buttons.manualCancel.addEventListener('click', hideManualForm)
 
-function setAutoprintButton () {
-  elements.inputs.autoprint.checked = autoprint
+function showManualForm () {
+  elements.containers.manualForm.classList.add('mf-visible')
 }
 
-function focusOnBarcodeInput () { elements.inputs.barcode.focus() }
+function hideManualForm () {
+  elements.containers.manualForm.classList.remove('mf-visible')
+}
+
+function manualFormSubmit () {
+  var titleEl = document.querySelector('#mf-title')
+  var courseEl = document.querySelector('#mf-number')
+  var periodEl = document.querySelector('#mf-period')
+
+  var title = titleEl.value
+  var courses = courseEl.value.split(/,\s*/g)
+  var period = periodEl.value
+  var info = config.reservesLocations[period]
+  info.title = title
+  info.courses = courses
+
+  courses.forEach(function (course) {
+    info.course = course
+    addLabelToContainer(info)
+  })
+
+  hideManualForm()
+
+  // reset the elements
+  titleEl.value = courseEl.value = ''
+  periodEl.options[0].selected = true
+}
+
+function onload () {
+  registerShortcuts()
+
+  // set the autoprint button
+  elements.inputs.autoprint.checked = autoprint
+  
+  // put focus on the barcode input
+  elements.inputs.barcode.focus() 
+
+  addManualReserveOptions()
+}
+
+function registerShortcuts () {
+  Mousetrap.bind('mod+c', shortcutActions.copy)
+  Mousetrap.bind('mod+x', shortcutActions.cut)
+  Mousetrap.bind('mod+v', shortcutActions.paste)
+  Mousetrap.bind(['command+q', 'alt+f4'], shortcutActions.quit)
+  Mousetrap.bind(['command+w', 'ctrl+f4'], shortcutActions.close)
+
+  Mousetrap.bind('esc esc', shortcutActions.devTools)
+
+  // Mousetrap, by default, disables shortcuts when in text elements
+  // (input, textarea, essentially all areas we'd be using). Returning
+  // false in `Mousetrap.stopCallback` allows the callback to be called
+  Mousetrap.stopCallback = function () { return false }
+}
+
+function addManualReserveOptions () {
+  var locations = config.reservesLocations
+  var select = elements.inputs.manualReservePeriod
+
+  for (var i in locations) {
+    var loc = locations[i]
+    var el = document.createElement('option')
+
+    el.innerText = loc.name
+    el.value = i
+    select.appendChild(el)
+  }
+}
+
 
 function handleAutoprintUpdate (ev) { 
   var checked = !!ev.target.checked
@@ -62,7 +134,6 @@ function handleBarcodeSubmit (ev) {
   cr.handleBarcode(barcode)
 
   cr.on('data', function (info) { 
-    var labelContainer = elements.containers.label
     var labelNum, offsetX, offsetY, latest
 
     clearDebug()
@@ -70,14 +141,9 @@ function handleBarcodeSubmit (ev) {
     info.courses.forEach(function (course) {
       var singleInfo = info
       singleInfo.course = course
-      elements.containers.label.innerHTML += renderTemplate('label', info)
-    
-      if (labelContainer.children.length > 1) {
-        labelNum = labelContainer.children.length
-        latest = labelContainer.lastChild
-
-        latest.style.top = (labelNum * 10) + 'px'
-      }
+      singleInfo.barcode = barcode
+      
+      addLabelToContainer(singleInfo)
     })  
 
     // pause to let the logo load
@@ -92,10 +158,16 @@ function handleBarcodeSubmit (ev) {
   })
 }
 
-function handleShortcutAction (action) {
-  if (!remote.getCurrentWindow().isFocused()) return
+function addLabelToContainer (info) {
+  var labelContainer = elements.containers.label
+  labelContainer.innerHTML += renderTemplate('label', info)
 
-  return shortcutActions[action]()
+  if (labelContainer.children.length > 1) {
+    labelNum = labelContainer.children.length
+    latest = labelContainer.lastChild
+
+    latest.style.top = (labelNum * 10) + 'px'
+  }
 }
 
 function handlePrint () {
@@ -138,3 +210,54 @@ function handlePrint () {
     }
   }
 }
+
+function handleClear (ev) {
+  var container = elements.containers.label
+  ev.preventDefault()
+
+  while (container.firstChild) {
+    container.removeChild(container.firstChild)
+  }
+}
+
+function handleManualPeriodUpdate (ev) {
+  var val = ev.target.value
+  var valEl = document.querySelector('[data-name="'+val+'"]')
+
+  
+}
+
+// function sendItemToGoogleDocsServer (item, cb) {
+//   cb = cb || function(){}
+
+//   var data = {
+//     itemtitle: item.title,
+//     shelvinglocation: item.name + 's',
+//     barcode: item.barcode,
+//     callnumber: item.callNumber,
+//     oclcnumber: item.oclcNumber,
+//     copytype: (item.barcode.slice(0) === 3 ? 'Library': 'Personal'),
+//     notes: 'Added by Reserves Bot!'
+//   }
+
+//   if (!config.reservesBot) {
+//     return cb()
+//   }
+
+//   var postData = JSON.stringify(data)
+//   var course = item.course.replace(/(\w{3,})[\s\-]?(\d{3,})(.*)/, '$1-$2')
+//   var semester = config.semester
+//   var opts = {
+//     host: config.reservesBot.url,
+//     method: 'POST',
+//     port: config.reservesBot.port,
+//     path: '/course/' + semester + '/' + course,
+//     headers: {
+//       'Content-type': 'application/json',
+//       'Content-length': postData.length
+//     }
+//   }
+//   var req = http.request(opts)
+//   req.write(postData)
+//   req.end()
+// }

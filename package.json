@@ -5,6 +5,7 @@
   "main": "app.js",
   "dependencies": {
     "debug": "^2.2.0",
+    "mousetrap": "^1.5.3",
     "node-xml": "^1.0.2",
     "oclc-copy-resource": "^1.0.0",
     "oclc-wskey": "^2.1.0",
@@ -16,11 +17,10 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron app",
     "clean": "rm -rf ./dist",
-    
     "build": "npm run clean && build:win",
-    "build:win": "./node_modules/electron-packager/cli.js ./ wms-course-reserves --out=dist/win --platform=win32 --arch=ia32 --version=0.30.1",
-
+    "build:win": "npm run clean && ./node_modules/electron-packager/cli.js ./ wms-course-reserves --out=dist/win --platform=win32 --arch=ia32 --version=0.30.1",
     "pack": "npm run build && npm run pack:win",
     "pack:win": "npm run build:win && ./node_modules/electron-builder/cli.js \"dist/win/wms-course-reserves-win32-ia32\" --platform=win32 --out=dist/win --config=pack-config.json"
   },

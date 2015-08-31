@@ -21,16 +21,33 @@
       <section class="main-area">
         <form class="barcode-form">
           <input class="barcode-input" placeholder="Scan your barcode">
-          
-          <label class="autoprint-label">
-            <input type="checkbox" class="autoprint">
-            Autoprint?
-          </label>
-
-          <!-- <button class="settings-button">
-            Settings
-          </button> -->
         </form>
+        
+        <label class="btn autoprint-label">
+          <input type="checkbox" class="autoprint">
+          Autoprint?
+        </label>
+        <button class="btn manual-entry">
+          Manual entry
+        </button>
+        <button class="btn clear-button">
+          Clear all
+        </button>
+      </section>
+
+      <section class="manual-form">
+        <label for="mf-title">Title</label>
+        <input id="mf-title" class="manual-form-title" placeholder="Title">
+        
+        <label for="mf-number">Course ID</label>
+        <input id="mf-number" class="manual-form-course-number" placeholder="(ex: THR 250 - Brecht)">
+
+        <select id="mf-period" class="manual-form-reserve-period">
+          <option>Select the Reserve Period</option>
+        </select>
+
+        <button class="btn manual-form-submit">Submit</button>
+        <button class="btn manual-form-cancel">Cancel</button>
       </section>
 
       <section class="debug-container alert" style="background-color: #dee;text-align:center;"></section>

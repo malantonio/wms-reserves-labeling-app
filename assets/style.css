@@ -10,6 +10,8 @@ body {
 @media print {
   body {
     height: 6in;
+    margin: 0;
+    padding: 0;
     width: 4in;
   }
 
@@ -21,10 +23,9 @@ body {
   
   .label.print-visible {
     border: none;
-    height: 6in;
-    left: 0;
-    top: 0;
-    width: 4in;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
   }
 }
 
@@ -51,13 +52,25 @@ button, label {
   width: 100%;
 }
 
-.autoprint-label {
-  background-color: rgba(222, 237, 238, 1);
-  border: 2px solid rgba(192, 207, 208, 1);
+.btn {
+  border: 2px solid transparent;
   border-radius: 10px;
   display: inline-block;
+  font-size: 1em;
   margin: 1em;
+  margin-left: 0;
   padding: .5em;
+}
+
+.autoprint-label {
+  background-color: rgba(222, 237, 238, 1);
+  border-color: rgba(192, 207, 208, 1);
+}
+
+.clear-button {
+  background-color: #666;
+  border-color: #444;
+  color: #ddd;
 }
 
 .alert:not(:empty) {
@@ -75,24 +88,44 @@ button, label {
   font-weight: 100;
 }
 
-.settings-button, .settings-close {
-  border: 1px solid transparent;
-  border-radius: 5px;
-  bottom: 1.75em;
-  font-size: 1em;
-  padding: .5em;
-}
-
-.settings-button {  
-  background-color: #e5e5e5;
-  border-color: #c3c3c3;
+.manual-form {
+  background-color: rgba(255, 255, 255, 1);
+  border: 1px solid black;
+  box-shadow: 0 0 2px 3px #bbb;
+  height: 100%;
+  padding: 1em;
   position: absolute;
-  right: 10px;
+  top: -200%;
+  transition: top 500ms;
+  width: 100%;
 }
 
-.settings-close {
-  background-color: lightblue;
-  border-color: darkblue;
+.manual-form.mf-visible {
+  top: 0;
+}
+
+.manual-form label {
+  clear: both;
+  float: left;
+  padding-top: 5px;
+  width: 5em;
+}
+
+.manual-form input,
+.manual-form select {
+  display: block;
+  font-size: 1em;
+  margin-bottom: .75em;
+  vertical-align: middle;
+}
+
+.manual-form input + select {
+  margin-left: 5em;
+}
+
+.btn.manual-form-submit {
+  background-color: #98ff98;
+  border-color: #61d961;
 }
 
 /* label */
@@ -111,6 +144,7 @@ button, label {
 .label {
   background-color: #fff;
   border: 1px solid black;
+  padding: .5em;
   position: absolute;
   left: 0;
   opacity: 1;
@@ -118,6 +152,13 @@ button, label {
 
   transition: opacity 750ms ease-out, 
                   top 750ms ease-out;
+}
+
+@media print {
+  .label {
+    font-size: 1.125em;
+    padding: -.25em;
+  }
 }
 
 .label.removed {
@@ -150,6 +191,7 @@ button, label {
 
 .info {
   padding: .25em;
+  padding-left: 0;
   width: 75%;
 }
 
@@ -165,7 +207,8 @@ button, label {
 }
 
 .due-date td {
-  border: 1px solid black;
+  border-bottom: 1px solid black;
+  padding: .5em;
 }
 
 .course-info {
